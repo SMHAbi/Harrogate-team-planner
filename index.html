@@ -777,9 +777,9 @@ const STATUSES = [
   { id: "complete", label: "Complete", c: "--s-done-fg" }
 ];
 const byName = (a, b) => a.localeCompare(b, "en", { sensitivity: "base" });
-const PERSON_COLOUR = [];   /* add names here, e.g. ["Joe", "Sam"] */                // can be given jobs (communicator, preparer, reviewer); fixed order, so each person keeps their chart colour
+const PERSON_COLOUR = ["Louisa", "Anna", "Helen"];                // can be given jobs (communicator, preparer, reviewer); fixed order, so each person keeps their chart colour
 const PEOPLE = [...PERSON_COLOUR].sort(byName);
-const SIGN_IN = ["Joe"].sort(byName);  // appear in the sign-in list
+const SIGN_IN = ["Joe", ...PERSON_COLOUR].sort(byName);  // appear in the sign-in list
 const LEGACY_VAT = { s1: "vat1", s2: "vat2", s3: "vat3", monthly: "vatm" };
 
 const store = { get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
