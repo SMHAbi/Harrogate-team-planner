@@ -39,7 +39,7 @@
   --t-vat2: #3f73c4; --t-vat2-soft: #e0ebfb;
   --t-vat3: #7658c0; --t-vat3-soft: #ebe5fa;
   --t-vatm: #c03f86; --t-vatm-soft: #fce7f2;
-  --t-mtd: #c0650f; --t-mtd-soft: #fdeedc;
+  --t-mtd: #2a8a84; --t-mtd-soft: #daf1ee;
   --t-bookkeeping: #c24d86; --t-bookkeeping-soft: #fce4ef;
   --t-adhoc: #9a3567; --t-adhoc-soft: #f6d6e6;
   --pp0: #b6bac8; --pp1: #2a78d6; --pp2: #eb6834; --pp3: #1baf7a; --pp4: #eda100; --pp5: #e87ba4; --pp6: #008300; --pp7: #4a3aa7;
@@ -59,7 +59,7 @@
     --s-done-bg: #193728; --s-done-fg: #93dcb2; --s-stuck-bg: #3d2020; --s-stuck-fg: #f5a39c; --p-red: #f07a72; --c-requested: #c97a2a; --c-in: #1a9b95; --c-working: #5c7fe6; --c-queries: #d0578c; --c-awaiting: #ad8a10; --c-reviewed: #9e7af0; --c-confirm: #1d93c6; --c-complete: #2c9a60; --s-conf-bg: #16323f; --s-conf-fg: #8fd0f0; --p-amber: #f2b061; --p-green: #6fd09a;
     --t-overview: #cfc8dc; --t-overview-soft: #2b2833; --t-vat1: #f4ad8e; --t-vat1-soft: #3c261d; --t-vat2: #9fbff5; --t-vat2-soft: #1d2c48;
     --t-vat3: #c4b1f5; --t-vat3-soft: #2a2346; --t-vatm: #f5a3cf; --t-vatm-soft: #3c2133;
-    --t-mtd: #f6bd7c; --t-mtd-soft: #3a2b1a; --t-bookkeeping: #f3a6cb; --t-bookkeeping-soft: #3b2030; --t-adhoc: #e889b8; --t-adhoc-soft: #2e1524; --pp0: #4a4f5e; --pp1: #3987e5; --pp2: #d95926; --pp3: #199e70; --pp4: #c98500; --pp5: #d55181; --pp6: #008300; --pp7: #9085e9;
+    --t-mtd: #86d4cc; --t-mtd-soft: #173532; --t-bookkeeping: #f3a6cb; --t-bookkeeping-soft: #3b2030; --t-adhoc: #e889b8; --t-adhoc-soft: #2e1524; --pp0: #4a4f5e; --pp1: #3987e5; --pp2: #d95926; --pp3: #199e70; --pp4: #c98500; --pp5: #d55181; --pp6: #008300; --pp7: #9085e9;
     --t-cis: #f5a19b; --t-cis-soft: #3d2222;
     color-scheme: dark;
   }
@@ -74,7 +74,7 @@
   --s-done-bg: #193728; --s-done-fg: #93dcb2; --s-stuck-bg: #3d2020; --s-stuck-fg: #f5a39c; --p-red: #f07a72; --c-requested: #c97a2a; --c-in: #1a9b95; --c-working: #5c7fe6; --c-queries: #d0578c; --c-awaiting: #ad8a10; --c-reviewed: #9e7af0; --c-confirm: #1d93c6; --c-complete: #2c9a60; --s-conf-bg: #16323f; --s-conf-fg: #8fd0f0; --p-amber: #f2b061; --p-green: #6fd09a;
   --t-overview: #cfc8dc; --t-overview-soft: #2b2833; --t-vat1: #f4ad8e; --t-vat1-soft: #3c261d; --t-vat2: #9fbff5; --t-vat2-soft: #1d2c48;
   --t-vat3: #c4b1f5; --t-vat3-soft: #2a2346; --t-vatm: #f5a3cf; --t-vatm-soft: #3c2133;
-  --t-mtd: #f6bd7c; --t-mtd-soft: #3a2b1a; --t-bookkeeping: #f3a6cb; --t-bookkeeping-soft: #3b2030; --t-adhoc: #e889b8; --t-adhoc-soft: #2e1524; --pp0: #4a4f5e; --pp1: #3987e5; --pp2: #d95926; --pp3: #199e70; --pp4: #c98500; --pp5: #d55181; --pp6: #008300; --pp7: #9085e9;
+  --t-mtd: #86d4cc; --t-mtd-soft: #173532; --t-bookkeeping: #f3a6cb; --t-bookkeeping-soft: #3b2030; --t-adhoc: #e889b8; --t-adhoc-soft: #2e1524; --pp0: #4a4f5e; --pp1: #3987e5; --pp2: #d95926; --pp3: #199e70; --pp4: #c98500; --pp5: #d55181; --pp6: #008300; --pp7: #9085e9;
   --t-cis: #f5a19b; --t-cis-soft: #3d2222;
   color-scheme: dark;
 }
@@ -758,6 +758,7 @@ const TABS = [
   { id: "vat2", kicker: "VAT", label: "Jan Apr Jul Oct", title: "VAT · quarters ending Jan, Apr, Jul, Oct", vat: true },
   { id: "vat3", kicker: "VAT", label: "Feb May Aug Nov", title: "VAT · quarters ending Feb, May, Aug, Nov", vat: true },
   { id: "vat1", kicker: "VAT", label: "Mar Jun Sep Dec", title: "VAT · quarters ending Mar, Jun, Sep, Dec", vat: true },
+  { id: "mtd", kicker: "MTD", label: "Income Tax", title: "MTD for Income Tax · quarterly updates", sep: true },
   { id: "bookkeeping", kicker: "Monthly", label: "Bookkeeping", title: "Monthly bookkeeping", sep: true, subs: true },
   { id: "overview", kicker: "All jobs", label: "Overview", title: "Overview", overview: true, sep: true }
 ];
@@ -1909,7 +1910,7 @@ function renderOverview() {
     const c = {}; items.forEach(([, j]) => { c[j.status || ""] = (c[j.status || ""] || 0) + 1; });
     const n = items.length, behind = items.filter(([, j]) => isBehind(j)).length, billed = items.filter(([, j]) => isBilled(j)).length;
     const per = vatPeriod(t.id);
-    const sub = per ? `${per.end.toLocaleDateString("en-GB", { month: "short", year: "numeric" })} · due ${per.hmrc.toLocaleDateString("en-GB", { day: "numeric", month: "short" })}` : "Monthly";
+    const sub = per ? `${per.end.toLocaleDateString("en-GB", { month: "short", year: "numeric" })} · due ${per.hmrc.toLocaleDateString("en-GB", { day: "numeric", month: "short" })}` : t.id === "mtd" ? "Quarterly updates" : "Monthly";
     const legend = STATUSES.filter(st => c[st.id]).map(st => `<span><i style="background:${chartColor(st.id)}"></i>${esc(st.label)}<b>${c[st.id]}</b></span>`).join("") || `<span>No jobs on this list yet</span>`;
     const foot = n ? `${per ? `<span class="${behind ? "bad" : "good"}">${behind ? behind + " behind" : "None behind"}</span>` : ""}<span class="${billed === n ? "good" : ""}">Billed ${billed} of ${n}</span>${items.some(([, j]) => feeOf(j)) ? `<span class="${billed === n ? "good" : ""}">${money(items.reduce((t, [, j]) => t + (isBilled(j) ? feeOf(j) : 0), 0))} / ${money(items.reduce((t, [, j]) => t + feeOf(j), 0))}</span>` : ""}` : "";
     return `<button type="button" class="chart-card${fJob === t.id ? " sel" : ""}" data-tab="${t.id}" title="${fJob === t.id ? "Show all lists" : "Show only " + esc(t.title)}">
