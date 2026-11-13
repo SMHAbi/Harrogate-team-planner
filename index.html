@@ -758,7 +758,7 @@ const TABS = [
   { id: "vat2", kicker: "VAT", label: "Jan Apr Jul Oct", title: "VAT · quarters ending Jan, Apr, Jul, Oct", vat: true },
   { id: "vat3", kicker: "VAT", label: "Feb May Aug Nov", title: "VAT · quarters ending Feb, May, Aug, Nov", vat: true },
   { id: "vat1", kicker: "VAT", label: "Mar Jun Sep Dec", title: "VAT · quarters ending Mar, Jun, Sep, Dec", vat: true },
-  { id: "mtd", kicker: "MTD", label: "Income Tax", title: "MTD for Income Tax · quarterly updates", sep: true },
+  { id: "mtd", kicker: "MTD Income Tax", label: "Mar Jun Sep Dec", title: "MTD for Income Tax · quarters ending Mar, Jun, Sep, Dec", sep: true },
   { id: "bookkeeping", kicker: "Monthly", label: "Bookkeeping", title: "Monthly bookkeeping", sep: true, subs: true },
   { id: "overview", kicker: "All jobs", label: "Overview", title: "Overview", overview: true, sep: true }
 ];
@@ -1802,7 +1802,7 @@ function render() {
 // ---------- VAT deadlines ----------
 // The current period is the latest quarter (or month) that has ended. HMRC's deadline is the 7th of the
 // second month after it ends; our own target is the 5th. A job is "behind" once the 5th has passed and it isn't Complete.
-const VAT_ENDS = { vat1: [3, 6, 9, 12], vat2: [1, 4, 7, 10], vat3: [2, 5, 8, 11], vatm: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] };
+const VAT_ENDS = { mtd: [3, 6, 9, 12], vat1: [3, 6, 9, 12], vat2: [1, 4, 7, 10], vat3: [2, 5, 8, 11], vatm: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] };
 function vatPeriod(tabId, now = new Date()) {
   const ends = VAT_ENDS[tabId]; if (!ends) return null;
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
@@ -1827,7 +1827,7 @@ function deadlineState(j) {
     short: "Due " + f(p.hmrc, { day: "numeric", month: "short" }),
     tag: state === "behind" ? (pastHmrc ? "Overdue · " : "Late · ") : "",
     period: f(p.end, { month: "short", year: "numeric" }),
-    title: `Period ended ${f(p.end, { day: "numeric", month: "long", year: "numeric" })}. VAT return due ${f(p.hmrc, { day: "numeric", month: "long" })}; should be complete by ${f(p.target, { day: "numeric", month: "long" })}.` +
+    title: `Period ended ${f(p.end, { day: "numeric", month: "long", year: "numeric" })}. ${tabOf(j) === "mtd" ? "Quarterly update" : "VAT return"} due ${f(p.hmrc, { day: "numeric", month: "long" })}; should be complete by ${f(p.target, { day: "numeric", month: "long" })}.` +
       (state === "behind" ? (pastHmrc ? " Overdue: past the due date and not complete." : " Late: not complete by the 5th.") : state === "soon" ? ` ${days} day${days === 1 ? "" : "s"} until the 5th.` : state === "done" ? " Complete." : "")
   };
 }
@@ -1885,7 +1885,7 @@ function renderOverview() {
   const kpi = `<div class="kpis">
     <div class="kpi"><span>Jobs</span><b>${nAll}</b><small>${selTab ? esc(selName) : "across " + JOB_TABS.length + " lists"}</small></div>
     <div class="kpi"><span>Complete</span><b>${nAll ? Math.round(100 * nDone / nAll) : 0}%</b><small>${nDone} of ${nAll}</small></div>
-    <button type="button" class="kpi kpi-btn${nBehind ? " bad" : ""}${behindOnly ? " on" : ""}" id="kpiBehind" title="${behindOnly ? "Show all jobs" : "Show only jobs that are behind"}"><span>Behind on VAT</span><b>${nBehind}</b><small>${nBehind ? (behindOnly ? "Showing these below" : "Click to see them") : "Nothing late"}</small></button>
+    <button type="button" class="kpi kpi-btn${nBehind ? " bad" : ""}${behindOnly ? " on" : ""}" id="kpiBehind" title="${behindOnly ? "Show all jobs" : "Show only jobs that are behind"}"><span>Behind on deadlines</span><b>${nBehind}</b><small>${nBehind ? (behindOnly ? "Showing these below" : "Click to see them") : "Nothing late"}</small></button>
     <button type="button" class="kpi kpi-btn${fBill === "no" ? " on-bill" : ""}${nAll && nBilled === nAll ? " good" : ""}" id="kpiBill" title="${fBill === "no" ? "Show all jobs" : "Show only jobs still to bill"}"><span>Billed${selTab ? " · " + esc(selName) : ""}</span><b>${money(feeBilled)}<em> / ${money(feeAll)}</em></b>
       <span class="kbar"><span style="width:${feeAll ? 100 * feeBilled / feeAll : (nAll ? 100 * nBilled / nAll : 0)}%"></span></span>
       <small>${!nAll ? "No jobs" : nBilled === nAll ? "All " + nAll + " jobs billed" : `${nBilled} of ${nAll} jobs · ${money(feeAll - feeBilled)} still to bill`}${nNoFee && nAll ? ` · ${nNoFee} without a fee` : ""}</small></button>
@@ -2003,7 +2003,7 @@ function renderOverview() {
     <section class="ov-card" id="ovAll"><div class="viewseg" role="tablist" aria-label="Which jobs"><button type="button" role="tab" data-v="ready" aria-selected="${readyView}" class="${readyView ? "on" : ""}">Ready to bill <i>${nReady}</i></button><button type="button" role="tab" data-v="all" aria-selected="${!readyView}" class="${readyView ? "" : "on"}">All jobs</button><small>${readyView ? "Jobs at Awaiting confirmation or Complete" : "Every job, whatever its status"}</small></div>
       <h2><span>${jobName ? esc(jobName) : readyView ? "Ready to bill" : "All jobs"}${fJob ? ` <button type="button" class="chip-x" id="clearJob" title="Show all lists">✕ all lists</button>` : ""}</span>
       <small class="ovall-r">${billSeg}<span>${shown.length} ${shown.length === 1 ? "job" : "jobs"}${shown.length !== nAll ? " match" : ""}</span></small></h2>
-      ${shown.length ? `<div class="scroll"><table class="ov-table ov-jobs"><thead><tr><th>Company</th><th>Status</th><th>VAT due</th><th>Communicator</th><th>Preparer</th><th>Reviewer</th><th class="cfee">Fee</th><th class="cbill">Billed</th><th>Status changed</th></tr></thead><tbody>${jobRows}</tbody>
+      ${shown.length ? `<div class="scroll"><table class="ov-table ov-jobs"><thead><tr><th>Company</th><th>Status</th><th>Due</th><th>Communicator</th><th>Preparer</th><th>Reviewer</th><th class="cfee">Fee</th><th class="cbill">Billed</th><th>Status changed</th></tr></thead><tbody>${jobRows}</tbody>
       <tfoot><tr><td colspan="6">Total for the ${shown.length} ${shown.length === 1 ? "job" : "jobs"} shown${shown.length > LIMIT ? " (including those not listed)" : ""}</td><td class="cfee num-r">${money(shown.reduce((t, [, j]) => t + feeOf(j), 0))}</td><td class="cbill"><span class="tot-b">${money(shown.reduce((t, [, j]) => t + (isBilled(j) ? feeOf(j) : 0), 0))} billed</span></td><td></td></tr></tfoot></table></div>` : `<p class="ov-more">${readyView ? "No jobs are at Awaiting confirmation or Complete yet." : "No jobs match the current filters."}</p>`}
       ${shown.length > LIMIT ? `<div class="ov-more"><button type="button" class="btn" id="showAllJobs">Show all ${shown.length} jobs</button></div>` : (ovShowAll && shown.length > 25 ? `<div class="ov-more"><button type="button" class="btn" id="showFewer">Show fewer</button></div>` : "")}</section>`;
 
