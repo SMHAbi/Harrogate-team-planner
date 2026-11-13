@@ -1694,6 +1694,7 @@ function syncRow(tr, j, isVat) {
     f.sw.value = v; f.sw.dataset.sw = v;
   }
   if (act !== f.vs) { const v = j.vatscheme || ""; f.vs.value = v; f.vs.dataset.sw = v; }
+  f.vs.hidden = tabOf(j) === "mtd";   // VAT scheme only matters for VAT clients
   [f.name, f.st, f.com, f.pre, f.rev, f.per, f.rm, f.sw, f.vs, f.subIn, f.subBtn].forEach(el => el.disabled = readOnly);
   const t = cur(), hasSubs = !!t.subs, id = tr.dataset.id;
   const n = subsOf(j).length;
